@@ -1,104 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart' as shadcnui;
 
 class AppDesign {
-  static const double spacingExtraSmall = 4.0;
-  static const double spacingSmall = 8.0; // The double value used below
-  static const double spacingDefault = 16.0;
-  static const double spacingLarge = 24.0;
-  static const LinearGradient bgGradient = LinearGradient(
-    // Define the start and end points for a vertical or diagonal gradient
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    // Use modern, vibrant colors
-    colors: [
-      // A vibrant orange
-      Color(0xFFfca212),
-      // A warm reddish-pink for a modern blend
-      Color.fromARGB(255, 255, 148, 90),
-    ],
-  );
-  static const double radiusSmall = 8.0;
-  static const double radiusDefault = 12.0;
-  static const double radiusLarge = 16.0;
+  // ... (Your existing static variables are fine)
 
-  static const EdgeInsets paddingAllDefault = EdgeInsets.all(spacingDefault);
-  static const EdgeInsets paddingHorizontalSmall = EdgeInsets.symmetric(
-    horizontal: spacingSmall,
-  );
-  static const EdgeInsets paddingVerticalLarge = EdgeInsets.symmetric(
-    vertical: spacingLarge,
-  );
-  static Color textColor = Color(0xFFfca212).computeLuminance() > 0.5
-      ? Colors.black
-      : Colors.white;
-  static final ThemeData appTheme = ThemeData(
+  // 1. Get the base Geist typography to copy from
+  static final shadcnui.Typography _defaultGeist = shadcnui.Typography.geist();
+
+  // 2. Define the base Poppins style
+  static final TextStyle _poppinsStyle = TextStyle(
     fontFamily: GoogleFonts.poppins().fontFamily,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.amber.shade300, // Deep Purple
-      brightness: Brightness.light,
-      primary: Colors.amber.shade400,
-      secondary: Colors.yellow,
-    ),
+  );
 
-    textTheme: TextTheme(
-      displayLarge: GoogleFonts.poppins(
-        fontSize: 96.0,
-        fontWeight: FontWeight.bold,
-      ),
-      displayMedium: GoogleFonts.poppins(
-        fontSize: 40.0,
-        fontWeight: FontWeight.bold,
-      ),
-      titleLarge: GoogleFonts.poppins(
-        fontSize: 22.0,
-        fontWeight: FontWeight.w500,
-      ),
-      bodyMedium: GoogleFonts.poppins(fontSize: 16.0),
-      displaySmall: GoogleFonts.poppins(
-        fontSize: 34,
-        fontWeight: FontWeight.w700,
-        letterSpacing: 1.1,
-        foreground: Paint()
-          ..shader = const LinearGradient(
-            colors: [
-              Color(0xFF0A2647), // navy
-              Color(0xFF1A0038), // deep purple
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ).createShader(Rect.fromLTWH(0, 0, 250, 70)),
-        shadows: [
-          Shadow(color: Colors.white24, blurRadius: 12, offset: Offset(0, 2)),
-        ],
-      ),
-    ),
+  // 3. Define the Mono style (Fira Mono)
+  static final TextStyle _firaMonoStyle = TextStyle(
+    fontFamily: GoogleFonts.firaMono().fontFamily,
+  );
 
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.amber,
-      foregroundColor: Colors.black87,
-    ),
+  // 4. Create the custom shadcnui.Typography instance using the default constructor
+  static final shadcnui.Typography _appTypography = shadcnui.Typography(
+    
+    // --- Font Family & Style ---
+    sans: _poppinsStyle,
+    mono: _firaMonoStyle,
 
-    inputDecorationTheme: InputDecorationTheme(
-      // FIX: Using the double value 'spacingSmall' which EdgeInsets.all expects
-      contentPadding: EdgeInsets.all(AppDesign.spacingSmall),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppDesign.radiusSmall),
-      ),
-    ),
+    // --- Sizing Utilities (Must map ALL 14 sizes) ---
+    xSmall: _defaultGeist.xSmall.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    small: _defaultGeist.small.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    base: _defaultGeist.base.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    large: _defaultGeist.large.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    xLarge: _defaultGeist.xLarge.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    x2Large: _defaultGeist.x2Large.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    x3Large: _defaultGeist.x3Large.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    x4Large: _defaultGeist.x4Large.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    x5Large: _defaultGeist.x5Large.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    x6Large: _defaultGeist.x6Large.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    x7Large: _defaultGeist.x7Large.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    x8Large: _defaultGeist.x8Large.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    x9Large: _defaultGeist.x9Large.copyWith(fontFamily: _poppinsStyle.fontFamily),
 
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-        // Using WidgetStateProperty
-        backgroundColor: WidgetStateProperty.all<Color>(Colors.amberAccent),
-        overlayColor: WidgetStateProperty.all<Color>(Colors.yellow),
-        foregroundColor: WidgetStateProperty.all<Color>(Colors.black87),
-        elevation: WidgetStateProperty.all(10),
-        // Correctly setting shape using RoundedRectangleBorder
-        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-      ),
-    ),
+    // --- Weights (Must map ALL 10 weights) ---
+    // If you skip these, the weight styles will use the default Geist font family
+    thin: _defaultGeist.thin.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    light: _defaultGeist.light.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    extraLight: _defaultGeist.extraLight.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    normal: _defaultGeist.normal.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    medium: _defaultGeist.medium.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    semiBold: _defaultGeist.semiBold.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    bold: _defaultGeist.bold.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    extraBold: _defaultGeist.extraBold.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    black: _defaultGeist.black.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    italic: _defaultGeist.italic.copyWith(fontFamily: _poppinsStyle.fontFamily),
+
+    // --- Semantic Roles (Must map ALL 10 roles) ---
+    h1: _defaultGeist.h1.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    h2: _defaultGeist.h2.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    h3: _defaultGeist.h3.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    h4: _defaultGeist.h4.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    p: _defaultGeist.p.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    blockQuote: _defaultGeist.blockQuote.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    inlineCode: _defaultGeist.inlineCode.copyWith(fontFamily: _firaMonoStyle.fontFamily), // Use the mono font here
+    lead: _defaultGeist.lead.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    textLarge: _defaultGeist.textLarge.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    textSmall: _defaultGeist.textSmall.copyWith(fontFamily: _poppinsStyle.fontFamily),
+    textMuted: _defaultGeist.textMuted.copyWith(fontFamily: _poppinsStyle.fontFamily),
+  );
+
+  static final shadcnui.ThemeData appTheme = shadcnui.ThemeData(
+    colorScheme: shadcnui.ColorSchemes.lightViolet,
+    radius: 0.5,
+    typography: _appTypography, 
   );
 }
