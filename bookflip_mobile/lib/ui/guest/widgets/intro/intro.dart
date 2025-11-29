@@ -14,6 +14,7 @@ class IntroScreen extends shadcnui.StatefulWidget {
 class _IntroScreenState extends shadcnui.State<IntroScreen> {
   PageController pageController = PageController();
   String buttonText = "Skip";
+  String? nextButton = "Next";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,13 +23,12 @@ class _IntroScreenState extends shadcnui.State<IntroScreen> {
           PageView(
             controller: pageController,
 
-            onPageChanged: (index)=>{
-              if(index == 2) {
-                buttonText = "Finish"
-              } else {
-                buttonText = "Skip"
-              },
-              setState(() {})
+            onPageChanged: (index) => {
+              if (index == 2)
+                {buttonText = "Finish", nextButton = ""}
+              else
+                {buttonText = "Skip", nextButton = "Next"},
+              setState(() {}),
             },
             children: [
               Padding(
@@ -50,14 +50,9 @@ class _IntroScreenState extends shadcnui.State<IntroScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const SizedBox(),
+                GestureDetector(onTap: () => {}, child: Text(buttonText)),
                 SmoothPageIndicator(controller: pageController, count: 3),
-                GestureDetector(
-                  onTap: ()=>{
-
-                  },
-                  child:  Text(buttonText)),
-
+                GestureDetector(onTap: () => {}, child:  Text(nextButton!)),
               ],
             ),
           ),
