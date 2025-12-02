@@ -11,12 +11,11 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -52,44 +51,62 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         color: Color(0xFF555555),
                       ),
                     ),
-      
+
                     const SizedBox(height: 36),
-      
+
                     // Username
                     FormField(
                       label: const Text('Username'),
                       key: const InputKey(#username),
                       child: TextField(
                         placeholder: const Text('Enter your username'),
-                        controller: _usernameController,
+                        controller: _emailController,
+                        obscureText: true,
                       ),
                     ),
                     const SizedBox(height: 20),
-      
+
                     // Password
                     FormField(
                       label: const Text('Password'),
                       key: const InputKey(#password),
+
                       child: TextField(
                         controller: _passwordController,
                         placeholder: const Text('Enter your password'),
                         obscureText: true,
                       ),
                     ),
-      
+
                     const SizedBox(height: 32),
-      
+
                     SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: PrimaryButton(
                         onPressed: () {},
-                        child: const Text('Login'),
+                        child: const Text('Submit'),
                       ),
                     ),
-      
+                    const SizedBox(height: 10),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: SecondaryButton(
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(BootstrapIcons.google),
+                            const SizedBox(width: 8),
+                            const Text('Sign in with google'),
+                          ],
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 26),
-      
+
                     GestureDetector(
                       onTap: () {},
                       child: const Text(
@@ -101,9 +118,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                     ),
-      
+
                     const SizedBox(height: 12),
-      
+
                     GestureDetector(
                       onTap: () {
                         context.go('/register');

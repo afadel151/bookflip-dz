@@ -114,7 +114,23 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         child: const Text('Sign Up'),
                       ),
                     ),
-      
+                    const SizedBox(height: 10),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: SecondaryButton(
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(BootstrapIcons.google),
+                            const SizedBox(width: 8),
+                            const Text('Sign in with google'),
+                          ],
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 24),
       
                     GestureDetector(
