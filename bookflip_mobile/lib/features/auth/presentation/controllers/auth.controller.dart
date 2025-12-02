@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:bookflip_mobile/features/auth/data/auth.repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+part 'auth.controller.g.dart';
+
+
+@Riverpod(keepAlive: true)
 class AuthController extends AsyncNotifier {
   @override
   FutureOr<dynamic> build() {
-    // TODO: implement build
     throw UnimplementedError();
   }
 
@@ -32,6 +36,7 @@ class AuthController extends AsyncNotifier {
             .read(authRepositoryProvider)
             .signInWithEmailAndPAssword(email: email, password: password)
     );
+    
   }
 
 }

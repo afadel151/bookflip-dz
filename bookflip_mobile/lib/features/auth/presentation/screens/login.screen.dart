@@ -1,3 +1,7 @@
+// import 'package:flutter/material.dart';
+import 'package:bookflip_mobile/features/auth/data/auth.repository.dart';
+import 'package:bookflip_mobile/features/auth/presentation/controllers/auth.controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 // import 'package:flutter/material.dart';
@@ -13,6 +17,26 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  bool signIn(context) {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    if (email.isEmpty || password.isEmpty) {
+      return false;
+    }
+    try {
+      ref
+          .read(authControllerProvider.notifier)
+          .signInWithEmailAndPassword(email: email, password: password);
+      return true;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      return false;
+    }
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -22,6 +46,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(authControllerProvider);
+
+    // --> implement authcontroller listener
     return SafeArea(
       child: Scaffold(
         child: Center(
@@ -61,7 +88,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: TextField(
                         placeholder: const Text('Enter your username'),
                         controller: _emailController,
-                        obscureText: true,
+                        obscureText: false,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -84,8 +111,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       width: double.infinity,
                       height: 50,
                       child: PrimaryButton(
-                        onPressed: () {},
-                        child: const Text('Submit'),
+                        onPressed: () {
+                          bool valid = signIn(context);
+                          if (!valid) {
+                            showToast(
+                              context: context,
+                              builder: buildInvalidToast,
+                              location: ToastLocation.bottomLeft,
+                            );
+                          } else {
+                            print("logged in");
+                          }
+                        },
+                        child: state.isLoading
+                            ? CircularProgressIndicator()
+                            : const Text('Submit'),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -106,7 +146,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 26),
-
                     GestureDetector(
                       onTap: () {},
                       child: const Text(
@@ -143,4 +182,40 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ),
     );
   }
+}
+
+Widget buildInvalidToast(BuildContext context, ToastOverlay overlay) {
+  return SurfaceCard(
+    child: Basic(
+      title: const Text('Error'),
+      subtitle: const Text('Your credentials aren\'t valid'),
+      trailing: PrimaryButton(
+        size: ButtonSize.small,
+        onPressed: () {
+          // Close the toast programmatically when clicking Undo.
+          overlay.close();
+        },
+        child: const Text('Undo'),
+      ),
+      trailingAlignment: Alignment.center,
+    ),
+  );
+}
+
+Widget buildErrorRequestingToast(BuildContext context, ToastOverlay overlay) {
+  return SurfaceCard(
+    child: Basic(
+      title: const Text('Error'),
+      subtitle: const Text('An error has occured while requesting'),
+      trailing: PrimaryButton(
+        size: ButtonSize.small,
+        onPressed: () {
+          // Close the toast programmatically when clicking Undo.
+          overlay.close();
+        },
+        child: const Text('Undo'),
+      ),
+      trailingAlignment: Alignment.center,
+    ),
+  );
 }
