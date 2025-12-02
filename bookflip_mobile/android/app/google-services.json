@@ -29,6 +29,13 @@
             {
               "client_id": "541815583564-e4c3l27n5lf6o3vn4mtgi98ffta1qv7p.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "541815583564-kldtjdml62fqlgbcmi6vls11hjrl0t76.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bookflipMobile"
+              }
             }
           ]
         }
