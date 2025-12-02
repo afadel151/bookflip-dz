@@ -1,20 +1,34 @@
-import 'package:bookflip_mobile/ui/core/themes/default.dart';
-import 'package:bookflip_mobile/ui/guest/widgets/intro/intro.dart';
+import 'package:bookflip_mobile/firebase_options.dart';
+import 'package:bookflip_mobile/config/theme/default.dart';
+import 'package:bookflip_mobile/routes/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
-void main() {
-  runApp(const MyApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // optional
+  if (kDebugMode) {
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  }
+  runApp(ProviderScope(child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return ShadcnApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+
+
+    return ShadcnApp.router(
       theme: AppDesign.appTheme,
-      home:  IntroScreen(),
-    );
+      // home: IntroScreen()
+      routerConfig: ref.watch(goRouterProvider),
+     );
   }
 }
-
