@@ -1,1 +1,46 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"bookflip-001","appId":"1:541815583564:android:e831e9ba1a3e69fcffd5e9","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"bookflip-001","configurations":{"android":"1:541815583564:android:e831e9ba1a3e69fcffd5e9","ios":"1:541815583564:ios:5c95f24631afce07ffd5e9","macos":"1:541815583564:ios:5c95f24631afce07ffd5e9","web":"1:541815583564:web:444c389b10a1ed3dffd5e9","windows":"1:541815583564:web:4745dd8a843d7ca2ffd5e9"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "bookflip-001",
+          "appId": "1:541815583564:android:e831e9ba1a3e69fcffd5e9",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "bookflip-001",
+          "configurations": {
+            "android": "1:541815583564:android:e831e9ba1a3e69fcffd5e9",
+            "ios": "1:541815583564:ios:5c95f24631afce07ffd5e9",
+            "macos": "1:541815583564:ios:5c95f24631afce07ffd5e9",
+            "web": "1:541815583564:web:444c389b10a1ed3dffd5e9",
+            "windows": "1:541815583564:web:4745dd8a843d7ca2ffd5e9"
+          }
+        }
+      }
+    }
+  },
+   "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+    "database": {
+    "rules": "database.rules.json"
+  },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs20"
+  },
+  "emulators": {
+  "auth": { "port": 9099 },
+  "functions": { "port": 5001 },
+  "firestore": { "port": 8085 },
+  "database": { "port": 9005 },
+  "extensions": { "port": 9199 },
+  "ui": { "enabled": true, "port": 3003 },
+  "singleProjectMode": true
+}
+
+}
