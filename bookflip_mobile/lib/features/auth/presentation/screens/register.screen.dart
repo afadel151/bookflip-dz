@@ -1,3 +1,6 @@
+import 'package:bookflip_mobile/features/auth/presentation/controllers/auth.controller.dart';
+import 'package:bookflip_mobile/features/auth/presentation/widgets/async_value_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 // import 'package:flutter/material.dart';
@@ -25,8 +28,39 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     super.dispose();
   }
 
+  bool register(context) {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    String username = _usernameController.text.trim();
+    String confirmationPassword = _confirmPasswordController.text.trim();
+    if (email.isEmpty ||
+        password.isEmpty ||
+        username.isEmpty ||
+        confirmationPassword.isEmpty) {
+      return false;
+    }
+    if (confirmationPassword != password) {
+      return false;
+    }
+    try {
+      ref
+          .read(authControllerProvider.notifier)
+          .createUserWithEmailAndPassword(email: email, password: password);
+      return true;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(authControllerProvider);
+    ref.listen<AsyncValue>(authControllerProvider, (_, state) {
+      state.showAlertDialog(context);
+    });
     return SafeArea(
       child: Scaffold(
         child: Center(
@@ -56,9 +90,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         color: Color(0xFF555555),
                       ),
                     ),
-      
+
                     const SizedBox(height: 36),
-      
+
                     // Username
                     FormField(
                       label: const Text('Username'),
@@ -69,7 +103,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-      
+
                     // Email
                     FormField(
                       label: const Text('Email'),
@@ -80,7 +114,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-      
+
                     // Password
                     FormField(
                       label: const Text('Password'),
@@ -92,7 +126,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-      
+
                     // Confirm Password
                     FormField(
                       label: const Text('Confirm Password'),
@@ -103,15 +137,47 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         obscureText: true,
                       ),
                     ),
-      
+
                     const SizedBox(height: 32),
-      
+
                     SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: PrimaryButton(
-                        onPressed: () {},
-                        child: const Text('Sign Up'),
+                        onPressed: () {
+                          bool registred = register(context);
+                          if (!registred) {
+                            showToast(
+                              context: context,
+                              builder:
+                                  (BuildContext context, ToastOverlay overlay) {
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 24.0,
+                                        vertical: 12.0,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          25.0,
+                                        ),
+                                        color: Colors
+                                            .black, // Example background color
+                                      ),
+                                      child: Text(
+                                        "Error creating user", // Display the message
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                              location: ToastLocation.bottomLeft,
+                            );
+                          }
+                        },
+                        child: state.isLoading
+                            ? CircularProgressIndicator(color: Colors.white)
+                            : const Text('Sign Up'),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -132,7 +198,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 24),
-      
+
                     GestureDetector(
                       onTap: () {
                         context.go('/login');

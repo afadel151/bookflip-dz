@@ -1,6 +1,6 @@
 // import 'package:flutter/material.dart';
-import 'package:bookflip_mobile/features/auth/data/auth.repository.dart';
 import 'package:bookflip_mobile/features/auth/presentation/controllers/auth.controller.dart';
+import 'package:bookflip_mobile/features/auth/presentation/widgets/async_value_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -17,23 +17,46 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  void _showRequiredFieldsToast() {
+    showToast(
+      context: context,
+      builder: (BuildContext context, ToastOverlay overlay) {
+        return SurfaceCard(
+          child: Basic(
+            title: const Text('Missing Fields'),
+            subtitle: const Text('Please enter both username and password.'),
+            trailing: PrimaryButton(
+              size: ButtonSize.small,
+              onPressed: () {
+                // Close the toast programmatically when clicking Undo.
+                overlay.close();
+              },
+              child: const Text('Undo'),
+            ),
+            trailingAlignment: Alignment.center,
+          ),
+        );
+      },
+      location: ToastLocation.bottomCenter,
+    );
+  }
 
-  bool signIn(context) {
+  Future<void> _submit() async {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
     if (email.isEmpty || password.isEmpty) {
-      return false;
+      _showRequiredFieldsToast();
+      return;
     }
     try {
-      ref
+      await ref
           .read(authControllerProvider.notifier)
           .signInWithEmailAndPassword(email: email, password: password);
-      return true;
+          print("logged in");
     } catch (e) {
       if (kDebugMode) {
         print(e.toString());
       }
-      return false;
     }
   }
 
@@ -47,8 +70,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(authControllerProvider);
-
-    // --> implement authcontroller listener
+     ref.listen<AsyncValue>(authControllerProvider, (_, state) {
+      state.showAlertDialog(context);
+    });// --> implement authcontroller listener
     return SafeArea(
       child: Scaffold(
         child: Center(
@@ -111,20 +135,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       width: double.infinity,
                       height: 50,
                       child: PrimaryButton(
-                        onPressed: () {
-                          bool valid = signIn(context);
-                          if (!valid) {
-                            showToast(
-                              context: context,
-                              builder: buildInvalidToast,
-                              location: ToastLocation.bottomLeft,
-                            );
-                          } else {
-                            print("logged in");
-                          }
-                        },
+                        onPressed: state.isLoading ? null :  _submit,
+
+                        // if (!valid) {
+                        //   showToast(
+                        //     context: context,
+                        //     builder: (BuildContext context, ToastOverlay overlay) {
+                        //       return SurfaceCard(
+                        //         child: Basic(
+                        //           title: const Text('Error'),
+                        //           subtitle: const Text(
+                        //             'An error has occured while requesting',
+                        //           ),
+                        //           trailing: PrimaryButton(
+                        //             size: ButtonSize.small,
+                        //             onPressed: () {
+                        //               // Close the toast programmatically when clicking Undo.
+                        //               overlay.close();
+                        //             },
+                        //             child: const Text('Undo'),
+                        //           ),
+                        //           trailingAlignment: Alignment.center,
+                        //         ),
+                        //       );
+                        //     },
+                        //     location: ToastLocation.bottomLeft,
+                        // );
                         child: state.isLoading
-                            ? CircularProgressIndicator()
+                            ? CircularProgressIndicator(color: Colors.white)
                             : const Text('Submit'),
                       ),
                     ),

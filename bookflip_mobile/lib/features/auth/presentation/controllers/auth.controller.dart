@@ -11,7 +11,7 @@ part 'auth.controller.g.dart';
 class AuthController extends AsyncNotifier {
   @override
   FutureOr<dynamic> build() {
-    throw UnimplementedError();
+    return null;
   }
 
   Future<void> createUserWithEmailAndPassword({
@@ -22,7 +22,7 @@ class AuthController extends AsyncNotifier {
     state = await AsyncValue.guard(
       () => ref
             .read(authRepositoryProvider)
-            .createUserWithEmailAndPAssword(email: email, password: password)
+            .createUserWithEmailAndPassword(email: email, password: password)
     );
   }
 
@@ -34,7 +34,7 @@ class AuthController extends AsyncNotifier {
     state = await AsyncValue.guard(
       () => ref
             .read(authRepositoryProvider)
-            .signInWithEmailAndPAssword(email: email, password: password)
+            .signInWithEmailAndPassword(email: email, password: password)
     );
     
   }
