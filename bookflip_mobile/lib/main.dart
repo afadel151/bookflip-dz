@@ -15,7 +15,7 @@ void main() async {
   if (kDebugMode) {
     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   }
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(ProviderScope(child:  MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
@@ -28,6 +28,7 @@ class MyApp extends ConsumerWidget {
     return ShadcnApp.router(
       theme: AppDesign.appTheme,
       // home: IntroScreen()
+      debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(goRouterProvider),
      );
   }
