@@ -17,12 +17,28 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 part 'routes.g.dart';
 
-enum AppRoutes { intro, login, register, main,profile,chats,library,settings }
+enum AppRoutes {
+  intro,
+  login,
+  register,
+  main,
+  profile,
+  chats,
+  library,
+  settings,
+}
 
 final firebaseProvider = Provider<FirebaseAuth>((ref) {
   return FirebaseAuth.instance;
 });
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
+const Map<String, String> _branchTitles = {
+  '/main': 'Explore new books',
+  '/library': 'Your personal library',
+  '/profile': 'User\'s profile',
+  '/chats': 'Your chats',
+  '/settings': 'Settings',
+};
 @riverpod
 GoRouter goRouter(Ref ref) {
   final firebaseAuth = ref.watch(firebaseProvider);
@@ -33,14 +49,15 @@ GoRouter goRouter(Ref ref) {
     redirect: (context, state) {
       final isLogdedIn = firebaseAuth.currentUser != null;
       final path = state.fullPath;
-      if (isLogdedIn && (path == '/login' || path == '/register' || path == '/intro')) {
+      if (isLogdedIn &&
+          (path == '/login' || path == '/register' || path == '/intro')) {
         return '/main';
-      }else if (!isLogdedIn && 
-          (path!.startsWith('/main') || 
-           path.startsWith('/library') || 
-           path.startsWith('/profile') ||
-           path.startsWith('/chats') || 
-           path.startsWith('/settings'))) {
+      } else if (!isLogdedIn &&
+          (path!.startsWith('/main') ||
+              path.startsWith('/library') ||
+              path.startsWith('/profile') ||
+              path.startsWith('/chats') ||
+              path.startsWith('/settings'))) {
         return '/login';
       }
       return null;
@@ -49,7 +66,12 @@ GoRouter goRouter(Ref ref) {
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return MainAppShell(navigationShell: navigationShell);
+          final currentPath = state.fullPath;
+
+          // 2. Look up the corresponding title in the map
+          // Use a default title if the path isn't found (shouldn't happen here)
+          final String title = _branchTitles[currentPath] ?? 'Page';
+          return MainAppShell(navigationShell: navigationShell, title: title);
         },
         branches: [
           StatefulShellBranch(
@@ -58,7 +80,7 @@ GoRouter goRouter(Ref ref) {
                 path: '/main',
                 name: AppRoutes.main.name,
                 builder: (context, state) => ExploreScreen(),
-              )
+              ),
             ],
           ),
           StatefulShellBranch(
