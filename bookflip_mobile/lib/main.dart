@@ -1,9 +1,7 @@
 import 'package:bookflip_mobile/firebase_options.dart';
 import 'package:bookflip_mobile/config/theme/default.dart';
 import 'package:bookflip_mobile/routes/routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
@@ -12,9 +10,10 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // optional
-  if (kDebugMode) {
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  }
+  // if (kDebugMode) {
+  //   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  // }
+
   runApp(ProviderScope(child:  MyApp()));
 }
 
