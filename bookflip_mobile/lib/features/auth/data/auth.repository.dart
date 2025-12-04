@@ -36,6 +36,9 @@ class AuthRepository {
   Future<void> logOut() async {
     await _auth.signOut();
   }
+  Future<void> signInWithGoogle() async {
+    await _auth.signInWithProvider(GoogleAuthProvider());
+  }
 }
 
 @Riverpod(keepAlive: true)
