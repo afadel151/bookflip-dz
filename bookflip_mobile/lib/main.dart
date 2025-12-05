@@ -12,6 +12,7 @@ void main() async {
   // optional
   // if (kDebugMode) {
   //   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  //   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8085);
   // }
 
   runApp(ProviderScope(child:  MyApp()));

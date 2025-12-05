@@ -1,5 +1,6 @@
 import 'package:bookflip_mobile/features/auth/presentation/screens/login.screen.dart';
 import 'package:bookflip_mobile/features/auth/presentation/screens/register.screen.dart';
+import 'package:bookflip_mobile/features/chat/presentation/screens/chat.screen.dart';
 import 'package:bookflip_mobile/features/chat/presentation/screens/chats_screen.dart';
 import 'package:bookflip_mobile/features/explore/presentation/screens/explore.screen.dart';
 import 'package:bookflip_mobile/features/guest/presentation/screens/intro.dart';
@@ -107,6 +108,18 @@ GoRouter goRouter(Ref ref) {
                 path: '/chats',
                 name: AppRoutes.chats.name,
                 builder: (context, state) => ChatsScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':chatId',
+                    name: 'chat_details', // Use this name in context.pushNamed
+                    builder: (context, state) {
+                      final chatId = state.pathParameters['chatId']!;
+                      // You can pass the Chat object via 'extra' to load instantly
+                      // final chat = state.extra as Chat?;
+                      return ChatScreen(chatId: chatId); // Placeholder for ChatDetailsScreen
+                    },
+                  ),
+                ],
               ),
             ],
           ),
