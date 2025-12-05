@@ -23,6 +23,7 @@ abstract class LastMessage with _$LastMessage {
 abstract class Chat with _$Chat {
   @JsonSerializable(explicitToJson: true)
   const factory Chat({
+    String? id,
     required List<String> participants, 
     
     required String bookId, 

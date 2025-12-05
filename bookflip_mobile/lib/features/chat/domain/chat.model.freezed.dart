@@ -284,7 +284,7 @@ as DateTime,
 /// @nodoc
 mixin _$Chat {
 
- List<String> get participants; String get bookId; LastMessage get lastMessage;@TimestampConverter() DateTime get createdAt; Map<String, int> get unreadCount;
+ String? get id; List<String> get participants; String get bookId; LastMessage get lastMessage;@TimestampConverter() DateTime get createdAt; Map<String, int> get unreadCount;
 /// Create a copy of Chat
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -297,16 +297,16 @@ $ChatCopyWith<Chat> get copyWith => _$ChatCopyWithImpl<Chat>(this as Chat, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Chat&&const DeepCollectionEquality().equals(other.participants, participants)&&(identical(other.bookId, bookId) || other.bookId == bookId)&&(identical(other.lastMessage, lastMessage) || other.lastMessage == lastMessage)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&const DeepCollectionEquality().equals(other.unreadCount, unreadCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Chat&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other.participants, participants)&&(identical(other.bookId, bookId) || other.bookId == bookId)&&(identical(other.lastMessage, lastMessage) || other.lastMessage == lastMessage)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&const DeepCollectionEquality().equals(other.unreadCount, unreadCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(participants),bookId,lastMessage,createdAt,const DeepCollectionEquality().hash(unreadCount));
+int get hashCode => Object.hash(runtimeType,id,const DeepCollectionEquality().hash(participants),bookId,lastMessage,createdAt,const DeepCollectionEquality().hash(unreadCount));
 
 @override
 String toString() {
-  return 'Chat(participants: $participants, bookId: $bookId, lastMessage: $lastMessage, createdAt: $createdAt, unreadCount: $unreadCount)';
+  return 'Chat(id: $id, participants: $participants, bookId: $bookId, lastMessage: $lastMessage, createdAt: $createdAt, unreadCount: $unreadCount)';
 }
 
 
@@ -317,7 +317,7 @@ abstract mixin class $ChatCopyWith<$Res>  {
   factory $ChatCopyWith(Chat value, $Res Function(Chat) _then) = _$ChatCopyWithImpl;
 @useResult
 $Res call({
- List<String> participants, String bookId, LastMessage lastMessage,@TimestampConverter() DateTime createdAt, Map<String, int> unreadCount
+ String? id, List<String> participants, String bookId, LastMessage lastMessage,@TimestampConverter() DateTime createdAt, Map<String, int> unreadCount
 });
 
 
@@ -334,9 +334,10 @@ class _$ChatCopyWithImpl<$Res>
 
 /// Create a copy of Chat
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? participants = null,Object? bookId = null,Object? lastMessage = null,Object? createdAt = null,Object? unreadCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? participants = null,Object? bookId = null,Object? lastMessage = null,Object? createdAt = null,Object? unreadCount = null,}) {
   return _then(_self.copyWith(
-participants: null == participants ? _self.participants : participants // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,participants: null == participants ? _self.participants : participants // ignore: cast_nullable_to_non_nullable
 as List<String>,bookId: null == bookId ? _self.bookId : bookId // ignore: cast_nullable_to_non_nullable
 as String,lastMessage: null == lastMessage ? _self.lastMessage : lastMessage // ignore: cast_nullable_to_non_nullable
 as LastMessage,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -435,10 +436,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String> participants,  String bookId,  LastMessage lastMessage, @TimestampConverter()  DateTime createdAt,  Map<String, int> unreadCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  List<String> participants,  String bookId,  LastMessage lastMessage, @TimestampConverter()  DateTime createdAt,  Map<String, int> unreadCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Chat() when $default != null:
-return $default(_that.participants,_that.bookId,_that.lastMessage,_that.createdAt,_that.unreadCount);case _:
+return $default(_that.id,_that.participants,_that.bookId,_that.lastMessage,_that.createdAt,_that.unreadCount);case _:
   return orElse();
 
 }
@@ -456,10 +457,10 @@ return $default(_that.participants,_that.bookId,_that.lastMessage,_that.createdA
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String> participants,  String bookId,  LastMessage lastMessage, @TimestampConverter()  DateTime createdAt,  Map<String, int> unreadCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  List<String> participants,  String bookId,  LastMessage lastMessage, @TimestampConverter()  DateTime createdAt,  Map<String, int> unreadCount)  $default,) {final _that = this;
 switch (_that) {
 case _Chat():
-return $default(_that.participants,_that.bookId,_that.lastMessage,_that.createdAt,_that.unreadCount);case _:
+return $default(_that.id,_that.participants,_that.bookId,_that.lastMessage,_that.createdAt,_that.unreadCount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -476,10 +477,10 @@ return $default(_that.participants,_that.bookId,_that.lastMessage,_that.createdA
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String> participants,  String bookId,  LastMessage lastMessage, @TimestampConverter()  DateTime createdAt,  Map<String, int> unreadCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  List<String> participants,  String bookId,  LastMessage lastMessage, @TimestampConverter()  DateTime createdAt,  Map<String, int> unreadCount)?  $default,) {final _that = this;
 switch (_that) {
 case _Chat() when $default != null:
-return $default(_that.participants,_that.bookId,_that.lastMessage,_that.createdAt,_that.unreadCount);case _:
+return $default(_that.id,_that.participants,_that.bookId,_that.lastMessage,_that.createdAt,_that.unreadCount);case _:
   return null;
 
 }
@@ -491,9 +492,10 @@ return $default(_that.participants,_that.bookId,_that.lastMessage,_that.createdA
 
 @JsonSerializable(explicitToJson: true)
 class _Chat implements Chat {
-  const _Chat({required final  List<String> participants, required this.bookId, required this.lastMessage, @TimestampConverter() required this.createdAt, required final  Map<String, int> unreadCount}): _participants = participants,_unreadCount = unreadCount;
+  const _Chat({this.id, required final  List<String> participants, required this.bookId, required this.lastMessage, @TimestampConverter() required this.createdAt, required final  Map<String, int> unreadCount}): _participants = participants,_unreadCount = unreadCount;
   factory _Chat.fromJson(Map<String, dynamic> json) => _$ChatFromJson(json);
 
+@override final  String? id;
  final  List<String> _participants;
 @override List<String> get participants {
   if (_participants is EqualUnmodifiableListView) return _participants;
@@ -525,16 +527,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Chat&&const DeepCollectionEquality().equals(other._participants, _participants)&&(identical(other.bookId, bookId) || other.bookId == bookId)&&(identical(other.lastMessage, lastMessage) || other.lastMessage == lastMessage)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&const DeepCollectionEquality().equals(other._unreadCount, _unreadCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Chat&&(identical(other.id, id) || other.id == id)&&const DeepCollectionEquality().equals(other._participants, _participants)&&(identical(other.bookId, bookId) || other.bookId == bookId)&&(identical(other.lastMessage, lastMessage) || other.lastMessage == lastMessage)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&const DeepCollectionEquality().equals(other._unreadCount, _unreadCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_participants),bookId,lastMessage,createdAt,const DeepCollectionEquality().hash(_unreadCount));
+int get hashCode => Object.hash(runtimeType,id,const DeepCollectionEquality().hash(_participants),bookId,lastMessage,createdAt,const DeepCollectionEquality().hash(_unreadCount));
 
 @override
 String toString() {
-  return 'Chat(participants: $participants, bookId: $bookId, lastMessage: $lastMessage, createdAt: $createdAt, unreadCount: $unreadCount)';
+  return 'Chat(id: $id, participants: $participants, bookId: $bookId, lastMessage: $lastMessage, createdAt: $createdAt, unreadCount: $unreadCount)';
 }
 
 
@@ -545,7 +547,7 @@ abstract mixin class _$ChatCopyWith<$Res> implements $ChatCopyWith<$Res> {
   factory _$ChatCopyWith(_Chat value, $Res Function(_Chat) _then) = __$ChatCopyWithImpl;
 @override @useResult
 $Res call({
- List<String> participants, String bookId, LastMessage lastMessage,@TimestampConverter() DateTime createdAt, Map<String, int> unreadCount
+ String? id, List<String> participants, String bookId, LastMessage lastMessage,@TimestampConverter() DateTime createdAt, Map<String, int> unreadCount
 });
 
 
@@ -562,9 +564,10 @@ class __$ChatCopyWithImpl<$Res>
 
 /// Create a copy of Chat
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? participants = null,Object? bookId = null,Object? lastMessage = null,Object? createdAt = null,Object? unreadCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? participants = null,Object? bookId = null,Object? lastMessage = null,Object? createdAt = null,Object? unreadCount = null,}) {
   return _then(_Chat(
-participants: null == participants ? _self._participants : participants // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,participants: null == participants ? _self._participants : participants // ignore: cast_nullable_to_non_nullable
 as List<String>,bookId: null == bookId ? _self.bookId : bookId // ignore: cast_nullable_to_non_nullable
 as String,lastMessage: null == lastMessage ? _self.lastMessage : lastMessage // ignore: cast_nullable_to_non_nullable
 as LastMessage,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
