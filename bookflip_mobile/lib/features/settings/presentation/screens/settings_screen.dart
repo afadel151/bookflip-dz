@@ -41,7 +41,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           },
         ),
         Divider(),
-        Divider(),
+
         Container(
           height: 50,
           padding: EdgeInsets.symmetric(horizontal: 10),
@@ -69,9 +69,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               builder: (context) {
                 return AlertDialog(
                   title: const Text('Caution'),
-                  content: const Text(
-                    'Are you sure you want to log out ?',
-                  ),
+                  content: const Text('Are you sure you want to log out ?'),
                   actions: [
                     // Secondary action to cancel/dismiss.
                     OutlineButton(
@@ -109,15 +107,17 @@ class SettingScreenItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Clickable(
       onPressed: onTap,
-      child: Button(
-        // height: 50,
-        style: ButtonStyle(variance: ButtonVariance.fixed),
-
-        // padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Text(text), Icon(BootstrapIcons.chevronRight)],
+      child: SizedBox(
+        height: 50,
+        child: Button(
+          style: ButtonStyle(variance: ButtonVariance.fixed),
+        
+          // padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [Text(text), Icon(BootstrapIcons.chevronRight)],
+          ),
         ),
       ),
     );

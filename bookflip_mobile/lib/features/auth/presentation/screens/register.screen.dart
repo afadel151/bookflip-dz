@@ -28,7 +28,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     super.dispose();
   }
 
-  bool register(context) {
+  Future<void> _register() async {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
     String username = _usernameController.text.trim();
@@ -37,21 +37,29 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         password.isEmpty ||
         username.isEmpty ||
         confirmationPassword.isEmpty) {
-      return false;
+      return;
     }
     if (confirmationPassword != password) {
-      return false;
+      return ;
     }
     try {
       ref
           .read(authControllerProvider.notifier)
           .createUserWithEmailAndPassword(email: email, password: password);
-      return true;
     } catch (e) {
       if (kDebugMode) {
         print(e.toString());
       }
-      return false;
+    }
+  }
+  Future<void> _logInWithGoogle() async {
+    try {
+      await ref
+      .read(authControllerProvider.notifier)
+      .signInWithGoogle();
+      print("logged in");
+    } catch (e) {
+      print(e.toString());
     }
   }
 
@@ -144,37 +152,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       width: double.infinity,
                       height: 50,
                       child: PrimaryButton(
-                        onPressed: () {
-                          bool registred = register(context);
-                          if (!registred) {
-                            showToast(
-                              context: context,
-                              builder:
-                                  (BuildContext context, ToastOverlay overlay) {
-                                    return Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 24.0,
-                                        vertical: 12.0,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                          25.0,
-                                        ),
-                                        color: Colors
-                                            .black, // Example background color
-                                      ),
-                                      child: Text(
-                                        "Error creating user", // Display the message
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                              location: ToastLocation.bottomLeft,
-                            );
-                          }
-                        },
+                        onPressed: state.isLoading ? null : _register,
                         child: state.isLoading
                             ? CircularProgressIndicator(color: Colors.white)
                             : const Text('Sign Up'),
@@ -186,7 +164,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       width: double.infinity,
                       height: 50,
                       child: SecondaryButton(
-                        onPressed: () {},
+                        onPressed: state.isLoading ? null : _logInWithGoogle,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

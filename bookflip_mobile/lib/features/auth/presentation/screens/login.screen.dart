@@ -4,7 +4,6 @@ import 'package:bookflip_mobile/features/auth/presentation/widgets/async_value_u
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
-// import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -57,6 +56,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (kDebugMode) {
         print(e.toString());
       }
+    }
+  }
+  Future<void> _logInWithGoogle() async {
+    try {
+      await ref
+      .read(authControllerProvider.notifier)
+      .signInWithGoogle();
+      print("logged in");
+    } catch (e) {
+      print(e.toString());
     }
   }
 
@@ -172,7 +181,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       width: double.infinity,
                       height: 50,
                       child: SecondaryButton(
-                        onPressed: () {},
+                        onPressed:  state.isLoading ? null :  _logInWithGoogle,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
